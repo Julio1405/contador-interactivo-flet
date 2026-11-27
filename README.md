@@ -1,5 +1,7 @@
 # Contador interactivo con Flet
 
+[Abre el contador en el navegador](https://contador-interactivo-flet-julio1405.jokeylatte6.chatgpt.site/)
+
 Proyecto académico de programación orientada a objetos con Python y Flet. El contador empieza en cero cada vez que se abre la aplicación.
 
 - **Sumar** aumenta el valor en uno.
