@@ -1,112 +1,132 @@
 import flet as ft
 
+
 class ContadorApp:
     def __init__(self, page: ft.Page):
         self.page = page
         self.contador = 0
-        self.valor = ft.Text("0", size=76, weight=ft.FontWeight.BOLD, color="#F8FAFC")
+        self.texto_contador = ft.Text(
+            "0",
+            size=96,
+            weight=ft.FontWeight.BOLD,
+            color="#F8FAFC",
+            text_align=ft.TextAlign.CENTER,
+            max_lines=1,
+            overflow=ft.TextOverflow.ELLIPSIS,
+        )
+        self.boton_reiniciar = ft.TextButton(
+            "Reiniciar",
+            icon=ft.Icons.RESTART_ALT,
+            on_click=self.reiniciar,
+            disabled=True,
+        )
         self.configurar_pantalla()
 
     def configurar_pantalla(self):
-        self.page.title = "Contador Interactivo"
+        self.page.title = "Contador interactivo"
+        self.page.theme_mode = ft.ThemeMode.DARK
+        self.page.theme = ft.Theme(color_scheme_seed="#93C5FD")
         self.page.bgcolor = "#0B1120"
-        self.page.padding = 30
+        self.page.padding = 20
+        self.page.scroll = ft.ScrollMode.AUTO
         self.page.vertical_alignment = ft.MainAxisAlignment.CENTER
         self.page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
 
-        encabezado = ft.Column(
-            controls=[
-                ft.Text("CONTADOR DIGITAL", size=13, color="#94A3B8", weight=ft.FontWeight.BOLD),
-                ft.Text("Controla tu conteo", size=28, color="#F8FAFC", weight=ft.FontWeight.BOLD),
-                ft.Text("Usa los botones para cambiar el valor", size=14, color="#94A3B8"),
-            ],
-            spacing=8,
-            horizontal_alignment=ft.CrossAxisAlignment.CENTER,
-        )
-
-        pantalla_numero = ft.Container(
-            content=ft.Column(
-                controls=[
-                    ft.Text("VALOR ACTUAL", size=12, color="#93C5FD", weight=ft.FontWeight.BOLD),
-                    self.valor,
-                    ft.Text("Conteo en tiempo real", size=13, color="#94A3B8"),
-                ],
-                spacing=4,
-                horizontal_alignment=ft.CrossAxisAlignment.CENTER,
-            ),
-            bgcolor="#17233A",
-            padding=30,
-            border_radius=22,
+        marcador = ft.Container(
             width=300,
-            alignment=ft.Alignment(0, 0),
+            bgcolor="#17233A",
             border=ft.Border.all(1, "#263B5C"),
-        )
-
-        boton_menos = ft.Button(
-            text="− 1",
-            on_click=self.disminuir,
-            style=ft.ButtonStyle(bgcolor="#24344F", color="#E2E8F0", padding=18,
-                                 shape=ft.RoundedRectangleBorder(radius=14)),
-        )
-        boton_reset = ft.Button(
-            text="Reiniciar",
-            on_click=self.reiniciar,
-            style=ft.ButtonStyle(bgcolor="#334155", color="#F8FAFC", padding=18,
-                                 shape=ft.RoundedRectangleBorder(radius=14)),
-        )
-        boton_mas = ft.Button(
-            text="+ 1",
-            on_click=self.incrementar,
-            style=ft.ButtonStyle(bgcolor="#2563EB", color="#FFFFFF", padding=18,
-                                 shape=ft.RoundedRectangleBorder(radius=14)),
-        )
-
-        botones = ft.Row(
-            controls=[boton_menos, boton_reset, boton_mas],
-            alignment=ft.MainAxisAlignment.CENTER,
-            spacing=10,
-        )
-
-        tarjeta = ft.Container(
+            border_radius=20,
+            padding=ft.Padding.symmetric(vertical=14, horizontal=12),
             content=ft.Column(
-                controls=[encabezado, pantalla_numero, botones],
-                spacing=24,
+                [
+                    ft.Text("Valor actual", size=14, color="#BFDBFE"),
+                    ft.Semantics(content=self.texto_contador, live_region=True),
+                ],
+                spacing=0,
                 horizontal_alignment=ft.CrossAxisAlignment.CENTER,
             ),
-            bgcolor="#111B2E",
-            padding=30,
-            border_radius=28,
-            width=360,
-            border=ft.Border.all(1, "#1F2D45"),
         )
-
-        pie = ft.Text("Proyecto académico • Python + Flet", size=12, color="#64748B")
+        boton_restar = ft.OutlinedButton(
+            "Restar",
+            icon=ft.Icons.REMOVE,
+            on_click=self.disminuir,
+            height=48,
+            width=130,
+        )
+        boton_sumar = ft.FilledButton(
+            "Sumar",
+            icon=ft.Icons.ADD,
+            on_click=self.incrementar,
+            bgcolor="#93C5FD",
+            color="#102744",
+            height=48,
+            width=130,
+        )
         self.page.add(
-            ft.Column(
-                controls=[tarjeta, pie],
-                spacing=18,
-                horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+            ft.Container(
+                width=488,
+                padding=24,
+                bgcolor="#111B2E",
+                border=ft.Border.all(1, "#263B5C"),
+                border_radius=28,
+                content=ft.Column(
+                    [
+                        ft.Container(
+                            content=ft.Icon(ft.Icons.EXPOSURE, color="#DBEAFE", size=27),
+                            bgcolor="#253A5D",
+                            border_radius=16,
+                            padding=12,
+                        ),
+                        ft.Text(
+                            "Contador interactivo",
+                            size=30,
+                            weight=ft.FontWeight.BOLD,
+                            color="#F8FAFC",
+                            text_align=ft.TextAlign.CENTER,
+                        ),
+                        ft.Text(
+                            "Suma o resta de uno en uno.",
+                            color="#BFDBFE",
+                            text_align=ft.TextAlign.CENTER,
+                        ),
+                        marcador,
+                        ft.Row(
+                            [boton_restar, boton_sumar],
+                            alignment=ft.MainAxisAlignment.CENTER,
+                            wrap=True,
+                            spacing=12,
+                            run_spacing=12,
+                        ),
+                        self.boton_reiniciar,
+                    ],
+                    spacing=16,
+                    horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+                ),
             )
         )
 
-    def incrementar(self, e):
+    def incrementar(self, _):
         self.contador += 1
         self.actualizar()
 
-    def disminuir(self, e):
+    def disminuir(self, _):
         self.contador -= 1
         self.actualizar()
 
-    def reiniciar(self, e):
+    def reiniciar(self, _):
         self.contador = 0
         self.actualizar()
 
     def actualizar(self):
-        self.valor.value = str(self.contador)
+        self.texto_contador.value = str(self.contador)
+        self.boton_reiniciar.disabled = self.contador == 0
         self.page.update()
 
 
 def main(page: ft.Page):
     ContadorApp(page)
 
-ft.run(main)
+
+if __name__ == "__main__":
+    ft.run(main, view=ft.AppView.WEB_BROWSER)
