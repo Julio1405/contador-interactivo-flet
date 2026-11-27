@@ -9,18 +9,10 @@ class ContadorApp:
             "0",
             size=96,
             weight=ft.FontWeight.BOLD,
-            color="#F7F3FF",
+            color="#F8FAFC",
             text_align=ft.TextAlign.CENTER,
             max_lines=1,
             overflow=ft.TextOverflow.ELLIPSIS,
-        )
-        self.boton_restar = ft.OutlinedButton(
-            "Restar",
-            icon=ft.Icons.REMOVE,
-            on_click=self.decrementar,
-            disabled=True,
-            height=48,
-            width=130,
         )
         self.boton_reiniciar = ft.TextButton(
             "Reiniciar",
@@ -33,8 +25,8 @@ class ContadorApp:
     def configurar_pantalla(self):
         self.page.title = "Contador interactivo"
         self.page.theme_mode = ft.ThemeMode.DARK
-        self.page.theme = ft.Theme(color_scheme_seed="#BA9AFF")
-        self.page.bgcolor = "#110E1B"
+        self.page.theme = ft.Theme(color_scheme_seed="#93C5FD")
+        self.page.bgcolor = "#0B1120"
         self.page.padding = 20
         self.page.scroll = ft.ScrollMode.AUTO
         self.page.vertical_alignment = ft.MainAxisAlignment.CENTER
@@ -42,25 +34,32 @@ class ContadorApp:
 
         marcador = ft.Container(
             width=300,
-            bgcolor="#151021",
-            border=ft.Border.all(1, "#392A52"),
+            bgcolor="#17233A",
+            border=ft.Border.all(1, "#263B5C"),
             border_radius=20,
             padding=ft.Padding.symmetric(vertical=14, horizontal=12),
             content=ft.Column(
                 [
-                    ft.Text("Valor actual", size=14, color="#D5C7F2"),
+                    ft.Text("Valor actual", size=14, color="#BFDBFE"),
                     ft.Semantics(content=self.texto_contador, live_region=True),
                 ],
                 spacing=0,
                 horizontal_alignment=ft.CrossAxisAlignment.CENTER,
             ),
         )
+        boton_restar = ft.OutlinedButton(
+            "Restar",
+            icon=ft.Icons.REMOVE,
+            on_click=self.disminuir,
+            height=48,
+            width=130,
+        )
         boton_sumar = ft.FilledButton(
             "Sumar",
             icon=ft.Icons.ADD,
             on_click=self.incrementar,
-            bgcolor="#C7ABFF",
-            color="#241340",
+            bgcolor="#93C5FD",
+            color="#102744",
             height=48,
             width=130,
         )
@@ -68,14 +67,14 @@ class ContadorApp:
             ft.Container(
                 width=488,
                 padding=24,
-                bgcolor="#20182E",
-                border=ft.Border.all(1, "#3D3054"),
+                bgcolor="#111B2E",
+                border=ft.Border.all(1, "#263B5C"),
                 border_radius=28,
                 content=ft.Column(
                     [
                         ft.Container(
-                            content=ft.Icon(ft.Icons.EXPOSURE, color="#E2D1FF", size=27),
-                            bgcolor="#382653",
+                            content=ft.Icon(ft.Icons.EXPOSURE, color="#DBEAFE", size=27),
+                            bgcolor="#253A5D",
                             border_radius=16,
                             padding=12,
                         ),
@@ -83,17 +82,17 @@ class ContadorApp:
                             "Contador interactivo",
                             size=30,
                             weight=ft.FontWeight.BOLD,
-                            color="#F7F3FF",
+                            color="#F8FAFC",
                             text_align=ft.TextAlign.CENTER,
                         ),
                         ft.Text(
                             "Suma o resta de uno en uno.",
-                            color="#D5C7F2",
+                            color="#BFDBFE",
                             text_align=ft.TextAlign.CENTER,
                         ),
                         marcador,
                         ft.Row(
-                            [self.boton_restar, boton_sumar],
+                            [boton_restar, boton_sumar],
                             alignment=ft.MainAxisAlignment.CENTER,
                             wrap=True,
                             spacing=12,
@@ -111,8 +110,8 @@ class ContadorApp:
         self.contador += 1
         self.actualizar()
 
-    def decrementar(self, _):
-        self.contador = max(0, self.contador - 1)
+    def disminuir(self, _):
+        self.contador -= 1
         self.actualizar()
 
     def reiniciar(self, _):
@@ -121,9 +120,7 @@ class ContadorApp:
 
     def actualizar(self):
         self.texto_contador.value = str(self.contador)
-        en_cero = self.contador == 0
-        self.boton_restar.disabled = en_cero
-        self.boton_reiniciar.disabled = en_cero
+        self.boton_reiniciar.disabled = self.contador == 0
         self.page.update()
 
 

@@ -3,9 +3,9 @@
 Proyecto académico de programación orientada a objetos con Python y Flet. El contador empieza en cero cada vez que se abre la aplicación.
 
 - **Sumar** aumenta el valor en uno.
-- **Restar** disminuye el valor en uno hasta llegar a cero.
+- **Restar** disminuye el valor en uno y admite valores negativos.
 - **Reiniciar** devuelve el contador a cero desde cualquier valor.
-- Cuando el contador está a cero, los botones **Restar** y **Reiniciar** se desactivan.
+- Cuando el contador está a cero, el botón **Reiniciar** se desactiva.
 
 ## Instalación y ejecución
 
@@ -24,9 +24,9 @@ La clase `ContadorApp` mantiene el valor de la sesión y enlaza los botones a su
 
 | Captura | Estado |
 | --- | --- |
-| [01 · Inicio](evidencia/01-inicio.png) | Valor 0. Restar y Reiniciar están desactivados. |
+| [01 · Inicio](evidencia/01-inicio.png) | Valor 0. Reiniciar está desactivado. |
 | [02 · Después de sumar](evidencia/02-despues-de-sumar.png) | Valor 5 tras cinco pulsaciones de Sumar. |
-| [03 · Después de restar](evidencia/03-despues-de-restar.png) | Valor 2 tras sumar tres veces y restar una vez en una ventana de 390 px de ancho. |
+| [03 · Después de restar](evidencia/03-despues-de-restar.png) | Valor −1 tras restar desde cero en una ventana de 390 px de ancho. |
 
 ## Documentación oficial
 
